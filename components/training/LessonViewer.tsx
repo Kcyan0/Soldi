@@ -117,7 +117,8 @@ export default function LessonViewer({ lesson, moduleId, moduleTitle, userId, is
 
   // Render markdown-like content
   function renderContent(content: string) {
-    return content.split("\n").map((line, i) => {
+    const normalizedContent = content.replace(/\\n/g, '\n');
+    return normalizedContent.split("\n").map((line, i) => {
       if (line.startsWith("## ")) return <h2 key={i} style={{ fontSize: "18px", fontWeight: "700", marginBottom: "12px", marginTop: "24px" }}>{line.slice(3)}</h2>;
       if (line.startsWith("### ")) return <h3 key={i} style={{ fontSize: "15px", fontWeight: "700", marginBottom: "8px", marginTop: "20px", color: "var(--text-primary)" }}>{line.slice(4)}</h3>;
       if (line.startsWith("**") && line.endsWith("**")) return <p key={i} style={{ fontWeight: "700", marginBottom: "6px", color: "var(--green-kiwi)" }}>{line.slice(2, -2)}</p>;
