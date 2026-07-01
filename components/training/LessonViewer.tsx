@@ -41,10 +41,15 @@ const QUIZ_QUESTIONS = [
     explanation: "BANT = Budget, Authority, Need, Timeline. 'A' representa Authority — se o lead tem poder de decisão.",
   },
   {
-    question: "Qual canal tende a ter a maior taxa de resposta?",
-    options: ["Cold Email", "Cold Call", "WhatsApp", "LinkedIn"],
-    correct: 2,
-    explanation: "O WhatsApp tem taxas de resposta de 40-60% quando usado corretamente, pois é um canal mais pessoal e direto.",
+    question: "Como um SDR deve agir diante de uma objeção logo nos primeiros segundos da ligação?",
+    options: [
+      "Ignorar a objeção e continuar lendo o script",
+      "Escutar ativamente, validar a objeção e contornar fazendo uma pergunta",
+      "Desligar imediatamente para não perder tempo",
+      "Tentar vender e empurrar o produto a todo custo",
+    ],
+    correct: 1,
+    explanation: "A objeção inicial muitas vezes é apenas um reflexo de defesa. O SDR de sucesso escuta, demonstra empatia (valida) e usa perguntas abertas para entender a real situação do lead.",
   },
 ];
 
