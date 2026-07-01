@@ -58,13 +58,6 @@ export default function LessonViewer({ lesson, moduleId, moduleTitle, userId, is
   const supabase = createClient();
   const [completed, setCompleted] = useState(isCompleted);
   const [loading, setLoading] = useState(false);
-  const [quizStep, setQuizStep] = useState(0);
-  const [selected, setSelected] = useState<number | null>(null);
-  const [showAnswer, setShowAnswer] = useState(false);
-  const [quizScore, setQuizScore] = useState(0);
-  const [quizDone, setQuizDone] = useState(false);
-
-  const isQuiz = lesson.lesson_type === "quiz";
 
   async function markComplete(score?: number) {
     if (completed) return;
@@ -95,30 +88,6 @@ export default function LessonViewer({ lesson, moduleId, moduleTitle, userId, is
     setLoading(false);
     router.refresh();
   }
-
-  function handleQuizAnswer(optionIndex: number) {
-    if (showAnswer) return;
-    setSelected(optionIndex);
-    setShowAnswer(true);
-    const q = QUIZ_QUESTIONS[quizStep];
-    if (optionIndex === q.correct) {
-      setQuizScore(prev => prev + 1);
-    }
-  }
-
-  async function handleNextQuestion() {
-    if (quizStep < QUIZ_QUESTIONS.length - 1) {
-      setQuizStep(prev => prev + 1);
-      setSelected(null);
-      setShowAnswer(false);
-    } else {
-      setQuizDone(true);
-      const pct = Math.round((quizScore + (selected === QUIZ_QUESTIONS[quizStep].correct ? 1 : 0)) / QUIZ_QUESTIONS.length * 100);
-      await markComplete(pct);
-    }
-  }
-
-  const finalScore = Math.round((quizScore / QUIZ_QUESTIONS.length) * 100);
 
   // Render markdown-like content
   function renderContent(content: string) {
@@ -156,123 +125,25 @@ export default function LessonViewer({ lesson, moduleId, moduleTitle, userId, is
       </div>
 
       <div style={{ maxWidth: "680px" }}>
-        {/* Theory lesson */}
-        {!isQuiz && (
-          <div className="card" style={{ padding: "32px", marginBottom: "24px" }}>
-            <div style={{ lineHeight: "1.7" }}>
-              {renderContent(lesson.content)}
-            </div>
+        {/* Theory/Activity lesson */}
+        <div className="card" style={{ padding: "32px", marginBottom: "24px" }}>
+          <div style={{ lineHeight: "1.7" }}>
+            {renderContent(lesson.content)}
           </div>
-        )}
+        </div>
 
-        {/* Quiz lesson */}
-        {isQuiz && !quizDone && (
-          <div className="card" style={{ padding: "32px", marginBottom: "24px" }}>
-            <div style={{ marginBottom: "20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <span style={{ fontSize: "13px", color: "var(--text-muted)" }}>
-                Pergunta {quizStep + 1} de {QUIZ_QUESTIONS.length}
-              </span>
-              <div className="progress-bar" style={{ width: "120px" }}>
-                <div className="progress-bar-fill" style={{ width: `${((quizStep) / QUIZ_QUESTIONS.length) * 100}%` }} />
-              </div>
-            </div>
-
-            <h2 style={{ fontSize: "17px", fontWeight: "700", marginBottom: "24px", lineHeight: "1.4" }}>
-              {QUIZ_QUESTIONS[quizStep].question}
-            </h2>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "20px" }}>
-              {QUIZ_QUESTIONS[quizStep].options.map((opt, i) => {
-                let bgColor = "var(--bg-elevated)";
-                let borderColor = "var(--border)";
-                let textColor = "var(--text-primary)";
-
-                if (showAnswer) {
-                  if (i === QUIZ_QUESTIONS[quizStep].correct) {
-                    bgColor = "var(--green-muted)";
-                    borderColor = "rgba(125,200,50,0.4)";
-                    textColor = "var(--green-kiwi)";
-                  } else if (i === selected && i !== QUIZ_QUESTIONS[quizStep].correct) {
-                    bgColor = "rgba(239,68,68,0.08)";
-                    borderColor = "rgba(239,68,68,0.3)";
-                    textColor = "#EF4444";
-                  }
-                } else if (i === selected) {
-                  borderColor = "var(--green-kiwi)";
-                }
-
-                return (
-                  <button
-                    key={i}
-                    onClick={() => handleQuizAnswer(i)}
-                    disabled={showAnswer}
-                    style={{
-                      width: "100%",
-                      textAlign: "left",
-                      background: bgColor,
-                      border: `1px solid ${borderColor}`,
-                      borderRadius: "10px",
-                      padding: "14px 16px",
-                      color: textColor,
-                      fontSize: "14px",
-                      cursor: showAnswer ? "default" : "pointer",
-                      transition: "all 0.2s",
-                      fontFamily: "inherit",
-                    }}
-                  >
-                    {opt}
-                  </button>
-                );
-              })}
-            </div>
-
-            {showAnswer && (
-              <div style={{ padding: "12px 16px", background: "var(--bg-elevated)", borderRadius: "8px", marginBottom: "16px" }}>
-                <p style={{ fontSize: "13px", color: "var(--text-secondary)", lineHeight: "1.5" }}>
-                  <strong style={{ color: "var(--text-primary)" }}>Explicação: </strong>
-                  {QUIZ_QUESTIONS[quizStep].explanation}
-                </p>
-              </div>
-            )}
-
-            {showAnswer && (
-              <button className="btn-primary" onClick={handleNextQuestion} style={{ fontSize: "14px" }}>
-                {quizStep < QUIZ_QUESTIONS.length - 1 ? "Próxima pergunta" : "Ver resultado"}
-              </button>
-            )}
-          </div>
-        )}
-
-        {/* Quiz done */}
-        {isQuiz && quizDone && (
-          <div className="card" style={{ padding: "40px", textAlign: "center", marginBottom: "24px" }}>
-            <div className="score-circle" style={{ margin: "0 auto 20px" }}>
-              {finalScore}
-            </div>
-            <h2 style={{ fontSize: "20px", fontWeight: "700", marginBottom: "8px" }}>Quiz concluído!</h2>
-            <p style={{ color: "var(--text-muted)", fontSize: "14px", marginBottom: "20px" }}>
-              Você acertou {quizScore} de {QUIZ_QUESTIONS.length} perguntas.
-            </p>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: "6px", color: "var(--green-kiwi)", fontWeight: "700", fontSize: "16px" }}>
-              <Star size={18} /> +{lesson.xp_reward} XP ganhos!
-            </span>
-          </div>
-        )}
-
-        {/* Complete button for theory */}
-        {!isQuiz && (
-          <button
-            onClick={() => markComplete()}
-            disabled={completed || loading}
-            className={completed ? "btn-secondary" : "btn-primary"}
-            style={{ fontSize: "14px", padding: "12px 24px" }}
-          >
-            {loading ? "Salvando..." : completed ? <><CheckCircle size={16} /> Concluído</> : "Marcar como concluído"}
-          </button>
-        )}
+        {/* Complete button */}
+        <button
+          onClick={() => markComplete()}
+          disabled={completed || loading}
+          className={completed ? "btn-secondary" : "btn-primary"}
+          style={{ fontSize: "14px", padding: "12px 24px" }}
+        >
+          {loading ? "Salvando..." : completed ? <><CheckCircle size={16} /> Concluído</> : "Marcar como concluído"}
+        </button>
 
         {/* Navigation */}
-        {(completed || quizDone) && (
+        {completed && (
           <div style={{ marginTop: "16px" }}>
             <Link href={`/dashboard/training/${moduleId}`} style={{ textDecoration: "none" }}>
               <button className="btn-secondary" style={{ fontSize: "13px" }}>

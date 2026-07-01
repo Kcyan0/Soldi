@@ -33,9 +33,9 @@ select mod.id, title, content, lesson_type, order_index, xp_reward from mod, (va
   ('O papel do SDR na operação de vendas',
    '## O que é um SDR?\n\nO **Sales Development Representative (SDR)** é o profissional responsável pela parte inicial do funil: prospectar leads, qualificá-los e agendar reuniões para os closers.\n\n### Por que o SDR é crucial?\n- Libera os closers para focar em fechamento\n- Garante que apenas leads qualificados entram no pipeline\n- Permite maior volume de abordagens\n\n### Métricas-chave do SDR\n- **Conexões por dia**: quantos leads você contactou\n- **Taxa de resposta**: % de leads que responderam\n- **Taxa de qualificação**: % de leads que passaram para o próximo passo\n- **Reuniões agendadas por semana**: seu principal entregável\n\n### A mentalidade correta\nO SDR não é um vendedor — é um *qualificador*. Seu trabalho é encontrar os leads certos para a conversa certa na hora certa.',
    'theory', 1, 30),
-  ('Quiz: Fundamentos do SDR',
-   'Teste seus conhecimentos sobre o papel do SDR.',
-   'quiz', 2, 50),
+  ('Atividade: Mapeando seu ICP',
+   '## Exercício Prático: Definindo seu Perfil Ideal\n\nAgora que você entende o papel do SDR, a coisa mais importante antes de ligar para alguém é saber **com quem** você quer falar. Isso é o seu ICP (Ideal Customer Profile).\n\n### Passo a passo da atividade\n\nAbra um bloco de notas ou documento e responda a estas 3 perguntas sobre o produto que você vende:\n\n1. **Qual é o cargo da pessoa que decide a compra?** (ex: Diretor de RH, Gerente de Vendas, CEO)\n2. **Qual é o segmento e tamanho ideal da empresa?** (ex: Startups B2B de 50 a 200 funcionários)\n3. **Qual é a dor latente que você resolve?** (ex: Eles perdem muito tempo fazendo relatórios manuais)\n\n### O que fazer com isso?\n\n- Mantenha esse perfil na sua tela durante as simulações e prospecções reais.\n- **Sempre** que for abordar um lead, verifique mentalmente se ele se encaixa nessas 3 respostas.\n- Se não se encaixar, você está perdendo tempo. O foco do SDR é trazer o **lead certo**.',
+   'theory', 2, 50),
   ('Simulação: Primeira abordagem com lead frio',
    'Pratique sua primeira abordagem com um lead que nunca ouviu falar da empresa.',
    'simulation', 3, 100)
