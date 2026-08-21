@@ -1,16 +1,11 @@
 import {
-  BatteryFull,
   Bell,
   CreditCard,
   GraduationCap,
   Home,
   Mail,
   Menu,
-  Signal,
   User,
-  VolumeX,
-  Wifi,
-  X,
 } from "lucide-react";
 
 const fields = [
@@ -26,39 +21,8 @@ export default function CarteirinhaPage() {
   return (
     <div className="min-h-screen bg-gray-200 flex items-center justify-center p-4">
       <div className="w-full max-w-[390px] bg-white rounded-[2rem] overflow-hidden shadow-xl">
-        {/* Error banner + status bar */}
-        <div className="bg-red-600 text-white px-4 pt-3 pb-3">
-          <div className="flex items-center justify-between text-xs font-medium mb-2">
-            <span>22:56</span>
-            <div className="flex items-center gap-1.5">
-              <VolumeX size={13} />
-              <Wifi size={13} />
-              <Signal size={13} />
-              <span className="flex items-center gap-0.5 bg-white/20 rounded-full px-1.5 py-0.5">
-                <BatteryFull size={13} />
-                34
-              </span>
-            </div>
-          </div>
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="font-bold leading-tight">Erro</div>
-              <div className="text-sm leading-snug">
-                Não há carteira do aluno para esse registro.
-              </div>
-            </div>
-            <button
-              type="button"
-              aria-label="Fechar"
-              className="w-7 h-7 shrink-0 rounded-full bg-white/90 text-red-600 flex items-center justify-center"
-            >
-              <X size={16} strokeWidth={3} />
-            </button>
-          </div>
-        </div>
-
         {/* Header */}
-        <div className="relative bg-gradient-to-b from-blue-400 to-blue-800 pt-8 pb-8 px-6 text-center overflow-hidden">
+        <div className="relative bg-gradient-to-b from-blue-400 to-blue-800 pt-10 pb-8 px-6 text-center overflow-hidden">
           <svg
             className="absolute inset-x-0 bottom-0 w-full h-24 text-blue-900/40"
             viewBox="0 0 400 100"
